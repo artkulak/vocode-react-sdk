@@ -205,6 +205,7 @@ export const useConversation = (
   });
 
   const startConversation = async () => {
+    debugger;
     if (!audioContext || !audioAnalyser) return;
     setStatus("connecting");
 
