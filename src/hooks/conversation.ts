@@ -341,22 +341,23 @@ export const useConversation = (
     socket.send(stringify(startMessage));
     console.log("Access to microphone granted");
     console.log(startMessage);
-    console.log(isSafari)
 
     let recorderToUse = recorder;
-    console.log(isSafari, recorderToUse)
     if (recorderToUse && recorderToUse.state === "paused") {
       recorderToUse.resume();
     } else if (!recorderToUse) {
-      console.log(isSafari)
-      if (isSafari)
+      if (isSafari) {
+        console.log('Using audio/mp4 mime type')
         recorderToUse = new MediaRecorder(audioStream, {
           mimeType: "audio/mp4",
         });
-      else
+      }
+      else {
+        console.log('Using audio/wav mime type')
         recorderToUse = new MediaRecorder(audioStream, {
           mimeType: "audio/wav",
         });
+      }
 
       setRecorder(recorderToUse);
     }
