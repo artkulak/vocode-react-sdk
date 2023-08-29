@@ -74,7 +74,7 @@ export const useConversation = (
         socket.send(stringify(audioMessage));
     });
   };
-  
+
   // once the conversation is connected, stream the microphone audio into the socket
   React.useEffect(() => {
     if (!recorder || !socket) return;
@@ -345,9 +345,15 @@ export const useConversation = (
     if (recorderToUse && recorderToUse.state === "paused") {
       recorderToUse.resume();
     } else if (!recorderToUse) {
-      recorderToUse = new MediaRecorder(audioStream, {
-        mimeType: "audio/wav",
-      });
+      if (isSafari)
+        recorderToUse = new MediaRecorder(audioStream, {
+          mimeType: "audio/mp4",
+        });
+      else
+        recorderToUse = new MediaRecorder(audioStream, {
+          mimeType: "audio/wav",
+        });
+
       setRecorder(recorderToUse);
     }
 
@@ -355,7 +361,7 @@ export const useConversation = (
     if ("transcriberConfig" in startMessage) {
       timeSlice = Math.round(
         (1000 * startMessage.transcriberConfig.chunkSize) /
-          startMessage.transcriberConfig.samplingRate
+        startMessage.transcriberConfig.samplingRate
       );
     } else if ("timeSlice" in config) {
       timeSlice = config.timeSlice;
