@@ -345,17 +345,14 @@ export const useConversation = (
     if (recorderToUse && recorderToUse.state === "paused") {
       recorderToUse.resume();
     } else if (!recorderToUse) {
-      recorderToUse = new MediaRecorder(audioStream, {
-        mimeType: "audio/mp4",
-      });
-      // if (isSafari)
-      //   recorderToUse = new MediaRecorder(audioStream, {
-      //     mimeType: "audio/mp4",
-      //   });
-      // else
-      //   recorderToUse = new MediaRecorder(audioStream, {
-      //     mimeType: "audio/wav",
-      //   });
+      if (isSafari)
+        recorderToUse = new MediaRecorder(audioStream, {
+          mimeType: "audio/webm",
+        });
+      else
+        recorderToUse = new MediaRecorder(audioStream, {
+          mimeType: "audio/wav",
+        });
 
       setRecorder(recorderToUse);
     }
