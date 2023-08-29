@@ -341,6 +341,7 @@ export const useConversation = (
     socket.send(stringify(startMessage));
     console.log("Access to microphone granted");
     console.log(startMessage);
+    console.log(isSafari)
 
     let recorderToUse = recorder;
     console.log(isSafari, recorderToUse)
