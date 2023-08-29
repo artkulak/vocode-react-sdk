@@ -342,6 +342,7 @@ export const useConversation = (
     console.log(startMessage);
 
     let recorderToUse = recorder;
+    console.log(isSafari, recorderToUse)
     if (recorderToUse && recorderToUse.state === "paused") {
       recorderToUse.resume();
     } else if (!recorderToUse) {
