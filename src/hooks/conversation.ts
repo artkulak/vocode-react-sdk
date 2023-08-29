@@ -347,7 +347,7 @@ export const useConversation = (
     } else if (!recorderToUse) {
       if (isSafari)
         recorderToUse = new MediaRecorder(audioStream, {
-          mimeType: "audio/webm",
+          mimeType: "audio/mp4",
         });
       else
         recorderToUse = new MediaRecorder(audioStream, {
