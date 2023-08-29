@@ -345,6 +345,7 @@ export const useConversation = (
     if (recorderToUse && recorderToUse.state === "paused") {
       recorderToUse.resume();
     } else if (!recorderToUse) {
+      console.log(isSafari)
       if (isSafari)
         recorderToUse = new MediaRecorder(audioStream, {
           mimeType: "audio/mp4",
