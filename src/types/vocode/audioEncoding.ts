@@ -1,1 +1,1 @@
-export type AudioEncoding = "linear16" | "mulaw";
+export type AudioEncoding = "linear16" | "mulaw" | "none";
