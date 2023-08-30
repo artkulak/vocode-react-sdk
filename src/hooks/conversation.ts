@@ -350,9 +350,9 @@ export const useConversation = (
       //   mimeType: "audio/wav",
       // });
       if (isSafari) {
-        console.log('Using audio/webm mime type')
+        console.log('Using audio/m4a mime type')
         recorderToUse = new MediaRecorder(audioStream, {
-          mimeType: "audio/webm" //"audio/ogg" //"video/mp4",
+          mimeType: "audio/m4a" //"audio/ogg" //"video/mp4",
         });
       }
       else {
