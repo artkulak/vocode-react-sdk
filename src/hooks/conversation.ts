@@ -90,12 +90,12 @@ export const useConversation = (
   }, [recorder, socket, status, active]);
 
   // accept wav audio from webpage
-  // React.useEffect(() => {
-  //   const registerWav = async () => {
-  //     await register(await connect());
-  //   };
-  //   registerWav().catch(console.error);
-  // }, []);
+  React.useEffect(() => {
+    const registerWav = async () => {
+      await register(await connect());
+    };
+    registerWav().catch(console.error);
+  }, []);
 
   // play audio that is queued
   React.useEffect(() => {
