@@ -65,7 +65,8 @@ export const useConversation = (
     setAudioAnalyser(audioAnalyser);
   }, []);
 
-  const recordingDataListener = ({ data }: { data: Blob }) => { // TODO: { data }: { data: Blob }
+  const recordingDataListener = (data) => { // TODO: { data }: { data: Blob }
+    console.log(data)
     blobToBase64(data).then((base64Encoded: string | null) => {
       if (!base64Encoded) return;
       const audioMessage: AudioMessage = {
