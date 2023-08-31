@@ -90,12 +90,12 @@ export const useConversation = (
   }, [recorder, socket, status, active]);
 
   // accept wav audio from webpage
-  React.useEffect(() => {
-    const registerWav = async () => {
-      await register(await connect());
-    };
-    registerWav().catch(console.error);
-  }, []);
+  // React.useEffect(() => {
+  //   const registerWav = async () => {
+  //     await register(await connect());
+  //   };
+  //   registerWav().catch(console.error);
+  // }, []);
 
   // play audio that is queued
   React.useEffect(() => {
@@ -286,7 +286,8 @@ export const useConversation = (
       }
       audioStream = await navigator.mediaDevices.getUserMedia({
         video: false,
-        audio: trackConstraints,
+        audio: true
+        // audio: trackConstraints,
       });
     } catch (error) {
       if (error instanceof DOMException && error.name === "NotAllowedError") {
@@ -378,7 +379,7 @@ export const useConversation = (
         console.log('Using recordrtc Safari')
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
-          mimeType: 'audio/ogg',
+          mimeType: 'audio/wav',
           sampleRate: 44100,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
@@ -391,7 +392,7 @@ export const useConversation = (
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
           mimeType: 'audio/wav',
-          sampleRate: 48000,
+          sampleRate: 44100,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
           timeSlice: timeSlice,
@@ -399,8 +400,6 @@ export const useConversation = (
           ondataavailable: recordingDataListener
         })
       }
-
-
       setRecorder(recorderToUse);
     }
 
