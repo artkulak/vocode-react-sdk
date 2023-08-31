@@ -392,7 +392,7 @@ export const useConversation = (
         numberOfAudioChannels: 1,
         timeSlice: 300,
         //desiredSampRate: 16000,
-        //bufferSize: DEFAULT_CHUNK_SIZE,
+        bufferSize: DEFAULT_CHUNK_SIZE,
         getNativeBlob: true,
         ondataavailable: recordingDataListener
       });
