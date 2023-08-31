@@ -386,14 +386,14 @@ export const useConversation = (
       // once the conversation is connected, stream the microphone audio into the socket
       recorderToUse = RecordRTC(audioStream, {
         type: 'audio',
-        mimeType: 'audio/wav',
-        // sampleRate: micSettings.sampleRate,
+        // mimeType: 'audio/wav',
+        sampleRate: micSettings.sampleRate,
         recorderType: StereoAudioRecorder,
         numberOfAudioChannels: 1,
         timeSlice: timeSlice,
         // desiredSampRate: micSettings.sampleRate,
         // bufferSize: DEFAULT_CHUNK_SIZE,
-        getNativeBlob: true,
+        // getNativeBlob: true,
         ondataavailable: recordingDataListener
       });
       setRecorder(recorderToUse);
