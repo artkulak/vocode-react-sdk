@@ -66,6 +66,7 @@ export const useConversation = (
   }, []);
 
   const recordingDataListener = ({ data }: { data: Blob }) => {
+    console.log(typeof data);
     blobToBase64(data).then((base64Encoded: string | null) => {
       if (!base64Encoded) return;
       const audioMessage: AudioMessage = {
