@@ -266,7 +266,6 @@ export const useConversation = (
     socket.onclose = () => {
       stopConversation(error);
     };
-    setSocket(socket);
 
     // wait for socket to be ready
     await new Promise((resolve) => {
@@ -277,6 +276,8 @@ export const useConversation = (
         }
       }, 100);
     });
+    setSocket(socket);
+
 
     let audioStream;
     try {
@@ -348,7 +349,6 @@ export const useConversation = (
       );
     }
 
-    console.log('Socket here', socket)
     socket.send(stringify(startMessage));
     console.log("Access to microphone granted");
 
