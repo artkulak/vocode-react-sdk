@@ -391,7 +391,7 @@ export const useConversation = (
         recorderType: StereoAudioRecorder,
         numberOfAudioChannels: 1,
         timeSlice: 3000,
-        desiredSampRate: 16000,
+        //desiredSampRate: 16000,
         //bufferSize: DEFAULT_CHUNK_SIZE,
         getNativeBlob: true,
         ondataavailable: recordingDataListener
