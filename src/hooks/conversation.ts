@@ -343,6 +343,18 @@ export const useConversation = (
     socket.send(stringify(startMessage));
     console.log("Access to microphone granted");
 
+    let timeSlice;
+    if ("transcriberConfig" in startMessage) {
+      timeSlice = Math.round(
+        (1000 * startMessage.transcriberConfig.chunkSize) /
+        startMessage.transcriberConfig.samplingRate
+      );
+    } else if ("timeSlice" in config) {
+      timeSlice = config.timeSlice;
+    } else {
+      timeSlice = 10;
+    }
+
     let recorderToUse = recorder;
     if (recorderToUse && recorderToUse.state === "paused") {
       // recorderToUse.resume(); TODO: return for media recorder
@@ -360,30 +372,36 @@ export const useConversation = (
       //     mimeType: "audio/wav",
       //   });
       // }
-      recorderToUse = RecordRTC(audioStream, {
-        type: 'audio',
-        //mimeType: 'audio/mp4',
-        sampleRate: 44100,
-        recorderType: StereoAudioRecorder,
-        numberOfAudioChannels: 1,
-        timeSlice: 4000,
-        desiredSampRate: 16000
-      })
+
+      if (isSafari) {
+        console.log('Using recordrtc Safari')
+        recorderToUse = RecordRTC(audioStream, {
+          type: 'audio',
+          mimeType: 'audio/ogg',
+          sampleRate: 44100,
+          recorderType: StereoAudioRecorder,
+          numberOfAudioChannels: 1,
+          timeSlice: timeSlice,
+          desiredSampRate: 16000
+        })
+      } else {
+        console.log('Using recordrtc Other')
+        recorderToUse = RecordRTC(audioStream, {
+          type: 'audio',
+          mimeType: 'audio/wav',
+          sampleRate: 44100,
+          recorderType: StereoAudioRecorder,
+          numberOfAudioChannels: 1,
+          timeSlice: timeSlice,
+          desiredSampRate: 16000
+        })
+      }
+
 
       setRecorder(recorderToUse);
     }
 
-    let timeSlice;
-    if ("transcriberConfig" in startMessage) {
-      timeSlice = Math.round(
-        (1000 * startMessage.transcriberConfig.chunkSize) /
-        startMessage.transcriberConfig.samplingRate
-      );
-    } else if ("timeSlice" in config) {
-      timeSlice = config.timeSlice;
-    } else {
-      timeSlice = 10;
-    }
+
 
     if (recorderToUse.state === "recording") {
       // When the recorder is in the recording state, see:
