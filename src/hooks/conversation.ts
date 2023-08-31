@@ -66,7 +66,12 @@ export const useConversation = (
   }, []);
 
   const recordingDataListener = (data) => { // TODO: { data }: { data: Blob }
-    console.log(URL.createObjectURL(data))
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    a.href = window.URL.createObjectURL(data);
+    a.download = "test.wav";
+    a.click();
     blobToBase64(data).then((base64Encoded: string | null) => {
       if (!base64Encoded) return;
       const audioMessage: AudioMessage = {
