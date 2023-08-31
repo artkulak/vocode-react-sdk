@@ -103,6 +103,7 @@ export const useConversation = (
           ondataavailable: recordingDataListener
         });
         setRecorder(recorderToUse);
+        recorderToUse.startRecording();
       }
       // if (active)
       //   recorder.addEventListener("dataavailable", recordingDataListener);
@@ -400,19 +401,19 @@ export const useConversation = (
       // }
 
       // once the conversation is connected, stream the microphone audio into the socket
-      recorderToUse = RecordRTC(audioStream, {
-        type: 'audio',
-        mimeType: 'audio/wav',
-        sampleRate: micSettings.sampleRate,
-        recorderType: StereoAudioRecorder,
-        numberOfAudioChannels: 1,
-        timeSlice: timeSlice,
-        desiredSampRate: 16000,
-        //bufferSize: DEFAULT_CHUNK_SIZE,
-        getNativeBlob: true,
-        ondataavailable: recordingDataListener
-      });
-      setRecorder(recorderToUse);
+      // recorderToUse = RecordRTC(audioStream, {
+      //   type: 'audio',
+      //   mimeType: 'audio/wav',
+      //   sampleRate: micSettings.sampleRate,
+      //   recorderType: StereoAudioRecorder,
+      //   numberOfAudioChannels: 1,
+      //   timeSlice: timeSlice,
+      //   desiredSampRate: 16000,
+      //   //bufferSize: DEFAULT_CHUNK_SIZE,
+      //   getNativeBlob: true,
+      //   ondataavailable: recordingDataListener
+      // });
+      // setRecorder(recorderToUse);
 
       // if (isSafari) {
       //   console.log('Using recordrtc Safari', timeSlice)
@@ -448,15 +449,15 @@ export const useConversation = (
 
 
 
-    if (recorderToUse.state === "recording") {
-      // When the recorder is in the recording state, see:
-      // https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/state
-      // which is not expected to call `start()` according to:
-      // https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/start.
-      return;
-    }
+    // if (recorderToUse.state === "recording") {
+    //   // When the recorder is in the recording state, see:
+    //   // https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/state
+    //   // which is not expected to call `start()` according to:
+    //   // https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/start.
+    //   return;
+    // }
     // recorderToUse.start(timeSlice); TODO: return for MediaRecorder
-    recorderToUse.startRecording();
+    // recorderToUse.startRecording();
   };
 
   return {
