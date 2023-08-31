@@ -66,7 +66,6 @@ export const useConversation = (
   }, []);
 
   const recordingDataListener = (data) => { // TODO: { data }: { data: Blob }
-    console.log(data)
     blobToBase64(data).then((base64Encoded: string | null) => {
       if (!base64Encoded) return;
       const audioMessage: AudioMessage = {
@@ -386,7 +385,8 @@ export const useConversation = (
           numberOfAudioChannels: 1,
           timeSlice: timeSlice,
           desiredSampRate: 16000,
-          getNativeBlob: true,
+          bufferSize: DEFAULT_CHUNK_SIZE,
+          //getNativeBlob: true,
           ondataavailable: recordingDataListener
         })
       } else {
@@ -399,7 +399,8 @@ export const useConversation = (
           numberOfAudioChannels: 1,
           timeSlice: timeSlice,
           desiredSampRate: 16000,
-          getNativeBlob: true,
+          bufferSize: DEFAULT_CHUNK_SIZE,
+          //getNativeBlob: true,
           ondataavailable: recordingDataListener
         })
       }
