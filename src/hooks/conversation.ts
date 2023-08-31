@@ -385,7 +385,8 @@ export const useConversation = (
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
           timeSlice: timeSlice,
-          // desiredSampRate: 16000,
+          desiredSampRate: 16000,
+          getNativeBlob: true,
           ondataavailable: recordingDataListener
         })
       } else {
@@ -397,7 +398,8 @@ export const useConversation = (
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
           timeSlice: timeSlice,
-          // desiredSampRate: 16000,
+          desiredSampRate: 16000,
+          getNativeBlob: true,
           ondataavailable: recordingDataListener
         })
       }
