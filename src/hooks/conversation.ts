@@ -362,7 +362,7 @@ export const useConversation = (
       // }
       recorderToUse = RecordRTC(audioStream, {
         type: 'audio',
-        mimeType: 'audio/webm',
+        mimeType: 'audio/wav',
         sampleRate: 44100,
         recorderType: StereoAudioRecorder,
         numberOfAudioChannels: 1,
