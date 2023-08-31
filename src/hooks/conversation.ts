@@ -78,7 +78,7 @@ export const useConversation = (
         type: "websocket_audio",
         data: base64Encoded,
       };
-      console.log(socket?.readyState)
+      console.log(socket, socket?.readyState)
       socket?.readyState === WebSocket.OPEN &&
         socket.send(stringify(audioMessage));
     });
