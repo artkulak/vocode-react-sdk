@@ -55,7 +55,6 @@ export const useConversation = (
   const [error, setError] = React.useState<Error>();
   const [transcripts, setTranscripts] = React.useState<Transcript[]>([]);
   const [active, setActive] = React.useState(true);
-  const [audioStream, setAudioStream] = React.useState()
   const toggleActive = () => setActive(!active);
 
   // get audio context and metadata about user audio
@@ -67,6 +66,7 @@ export const useConversation = (
   }, []);
 
   const recordingDataListener = (data) => { // TODO: { data }: { data: Blob }
+    console.log('Status', status)
     if (status !== "connected") return;
     // var a = document.createElement("a");
     // document.body.appendChild(a);
@@ -293,7 +293,6 @@ export const useConversation = (
         //audio: true
         audio: trackConstraints,
       });
-      setAudioStream(audioStream)
     } catch (error) {
       if (error instanceof DOMException && error.name === "NotAllowedError") {
         alert(
