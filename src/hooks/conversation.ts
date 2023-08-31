@@ -354,7 +354,7 @@ export const useConversation = (
       else {
         console.log('Using audio/wav mime type')
         recorderToUse = new MediaRecorder(audioStream, {
-          mimeType: "audio/wav",
+          mimeType: "audio/mp3",
         });
       }
 
