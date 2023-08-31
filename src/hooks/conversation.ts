@@ -389,10 +389,10 @@ export const useConversation = (
         // mimeType: 'audio/wav',
         //  sampleRate: micSettings.sampleRate,
         recorderType: StereoAudioRecorder,
-        // numberOfAudioChannels: 1,
+        numberOfAudioChannels: 1,
         timeSlice: timeSlice,
         // desiredSampRate: micSettings.sampleRate,
-        bufferSize: DEFAULT_CHUNK_SIZE,
+        // bufferSize: DEFAULT_CHUNK_SIZE,
         // getNativeBlob: true,
         ondataavailable: recordingDataListener
       });
