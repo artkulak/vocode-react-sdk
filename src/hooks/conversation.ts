@@ -376,7 +376,7 @@ export const useConversation = (
       // }
 
       if (isSafari) {
-        console.log('Using recordrtc Safari')
+        console.log('Using recordrtc Safari', timeSlice)
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
           mimeType: 'audio/wav',
@@ -386,11 +386,11 @@ export const useConversation = (
           timeSlice: timeSlice,
           desiredSampRate: 16000,
           bufferSize: DEFAULT_CHUNK_SIZE,
-          //getNativeBlob: true,
+          getNativeBlob: true,
           ondataavailable: recordingDataListener
         })
       } else {
-        console.log('Using recordrtc Other')
+        console.log('Using recordrtc Other', timeSlice)
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
           mimeType: 'audio/wav',
@@ -400,7 +400,7 @@ export const useConversation = (
           timeSlice: timeSlice,
           desiredSampRate: 16000,
           bufferSize: DEFAULT_CHUNK_SIZE,
-          //getNativeBlob: true,
+          getNativeBlob: true,
           ondataavailable: recordingDataListener
         })
       }
