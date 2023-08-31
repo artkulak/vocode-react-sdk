@@ -49,7 +49,7 @@ export const useConversation = (
   const [currentSpeaker, setCurrentSpeaker] =
     React.useState<CurrentSpeaker>("none");
   const [processing, setProcessing] = React.useState(false);
-  const [recorder, setRecorder] = React.useState<IMediaRecorder>();
+  const [recorder, setRecorder] = React.useState(); //TODO: remove for Media Recorder React.useState<IMediaRecorder>();
   const [socket, setSocket] = React.useState<WebSocket>();
   const [status, setStatus] = React.useState<ConversationStatus>("idle");
   const [error, setError] = React.useState<Error>();
