@@ -287,8 +287,8 @@ export const useConversation = (
       }
       audioStream = await navigator.mediaDevices.getUserMedia({
         video: false,
-        audio: true
-        // audio: trackConstraints,
+        //audio: true
+        audio: trackConstraints,
       });
     } catch (error) {
       if (error instanceof DOMException && error.name === "NotAllowedError") {
@@ -381,11 +381,11 @@ export const useConversation = (
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
           mimeType: 'audio/wav',
-          sampleRate: 44100,
+          sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
           timeSlice: timeSlice,
-          desiredSampRate: 16000,
+          // desiredSampRate: 16000,
           ondataavailable: recordingDataListener
         })
       } else {
@@ -393,11 +393,11 @@ export const useConversation = (
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
           mimeType: 'audio/wav',
-          sampleRate: 44100,
+          sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
           timeSlice: timeSlice,
-          desiredSampRate: 16000,
+          // desiredSampRate: 16000,
           ondataavailable: recordingDataListener
         })
       }
