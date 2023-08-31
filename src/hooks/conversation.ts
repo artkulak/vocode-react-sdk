@@ -387,11 +387,11 @@ export const useConversation = (
       recorderToUse = RecordRTC(audioStream, {
         type: 'audio',
         // mimeType: 'audio/wav',
-        // sampleRate: micSettings.sampleRate,
+        sampleRate: micSettings.sampleRate,
         recorderType: StereoAudioRecorder,
         // numberOfAudioChannels: 1,
         timeSlice: timeSlice,
-        desiredSampRate: micSettings.sampleRate,
+        // desiredSampRate: micSettings.sampleRate,
         // bufferSize: DEFAULT_CHUNK_SIZE,
         // getNativeBlob: true,
         ondataavailable: recordingDataListener
