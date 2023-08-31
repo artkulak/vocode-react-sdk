@@ -348,6 +348,7 @@ export const useConversation = (
       );
     }
 
+    console.log('Socket here', socket)
     socket.send(stringify(startMessage));
     console.log("Access to microphone granted");
 
