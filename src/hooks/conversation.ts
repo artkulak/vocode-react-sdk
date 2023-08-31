@@ -348,7 +348,7 @@ export const useConversation = (
       if (isSafari) {
         console.log('Using video/mp4 mime type')
         recorderToUse = new MediaRecorder(audioStream, {
-          mimeType: "audio/ogg" //"audio/ogg" //"video/mp4",
+          mimeType: "audio/mpeg" //"audio/ogg" //"video/mp4",
         });
       }
       else {
