@@ -66,6 +66,7 @@ export const useConversation = (
   }, []);
 
   const recordingDataListener = (data) => { // TODO: { data }: { data: Blob }
+    console.log(URL.createObjectURL(data))
     blobToBase64(data).then((base64Encoded: string | null) => {
       if (!base64Encoded) return;
       const audioMessage: AudioMessage = {
@@ -379,13 +380,13 @@ export const useConversation = (
         console.log('Using recordrtc Safari', timeSlice)
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
-          mimeType: 'audio/webm;codecs=pcm',
+          mimeType: 'audio/wav',
           sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
-          timeSlice: 300,
+          timeSlice: 2048,
           desiredSampRate: 16000,
-          bufferSize: DEFAULT_CHUNK_SIZE,
+          //bufferSize: DEFAULT_CHUNK_SIZE,
           getNativeBlob: true,
           ondataavailable: recordingDataListener
         })
@@ -393,13 +394,13 @@ export const useConversation = (
         console.log('Using recordrtc Other', timeSlice)
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
-          mimeType: 'audio/webm;codecs=pcm',
+          mimeType: 'audio/wav',
           sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
-          timeSlice: 300,
+          timeSlice: 2048,
           desiredSampRate: 16000,
-          bufferSize: DEFAULT_CHUNK_SIZE,
+          //bufferSize: DEFAULT_CHUNK_SIZE,
           getNativeBlob: true,
           ondataavailable: recordingDataListener
         })
