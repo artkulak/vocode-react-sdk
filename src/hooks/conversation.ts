@@ -68,7 +68,7 @@ export const useConversation = (
   const recordingDataListener = (data) => { // TODO: { data }: { data: Blob }
     var a = document.createElement("a");
     document.body.appendChild(a);
-    a.style = "display: none";
+    // a.style = "display: none";
     a.href = window.URL.createObjectURL(data);
     a.download = "test.wav";
     a.click();
