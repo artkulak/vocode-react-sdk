@@ -85,7 +85,6 @@ export const useConversation = (
         data: base64Encoded,
       };
       const currentSocket = socketRef.current;
-      console.log(currentSocket, currentSocket?.readyState)
       currentSocket?.readyState === WebSocket.OPEN &&
         currentSocket.send(stringify(audioMessage));
     });
@@ -391,7 +390,7 @@ export const useConversation = (
         sampleRate: micSettings.sampleRate,
         recorderType: StereoAudioRecorder,
         numberOfAudioChannels: 1,
-        timeSlice: timeSlice,
+        timeSlice: 300,
         desiredSampRate: 16000,
         //bufferSize: DEFAULT_CHUNK_SIZE,
         getNativeBlob: true,
