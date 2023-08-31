@@ -390,8 +390,8 @@ export const useConversation = (
         console.log('Using recordrtc Other')
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
-          mimeType: 'audio/webm',
-          sampleRate: 44100,
+          mimeType: 'audio/wav',
+          sampleRate: 48000,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
           timeSlice: timeSlice,
