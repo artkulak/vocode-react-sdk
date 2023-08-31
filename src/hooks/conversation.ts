@@ -379,7 +379,7 @@ export const useConversation = (
         console.log('Using recordrtc Safari', timeSlice)
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
-          mimeType: 'audio/wav',
+          mimeType: 'audio/webm;codecs=pcm',
           sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
@@ -393,7 +393,7 @@ export const useConversation = (
         console.log('Using recordrtc Other', timeSlice)
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
-          mimeType: 'audio/wav',
+          mimeType: 'audio/webm;codecs=pcm',
           sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
