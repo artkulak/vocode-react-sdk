@@ -211,10 +211,10 @@ export const useConversation = (
     if (!audioContext || !audioAnalyser) return;
     setStatus("connecting");
 
-    if (!isSafari && !isChrome) {
-      stopConversation(new Error("Unsupported browser"));
-      return;
-    }
+    // if (!isSafari && !isChrome) {
+    //   stopConversation(new Error("Unsupported browser"));
+    //   return;
+    // }
 
     if (audioContext.state === "suspended") {
       audioContext.resume();
@@ -388,7 +388,7 @@ export const useConversation = (
         console.log('Using recordrtc Other')
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
-          mimeType: 'audio/wav',
+          mimeType: 'audio/webm',
           sampleRate: 44100,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
