@@ -81,10 +81,10 @@ export const useConversation = (
   React.useEffect(() => {
     if (!recorder || !socket) return;
     if (status === "connected") {
-      if (active)
-        recorder.addEventListener("dataavailable", recordingDataListener);
-      else
-        recorder.removeEventListener("dataavailable", recordingDataListener);
+      // if (active)
+      //   recorder.addEventListener("dataavailable", recordingDataListener);
+      // else
+      //   recorder.removeEventListener("dataavailable", recordingDataListener);
     }
   }, [recorder, socket, status, active]);
 
@@ -382,7 +382,8 @@ export const useConversation = (
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
           timeSlice: timeSlice,
-          desiredSampRate: 16000
+          desiredSampRate: 16000,
+          ondataavailable: recordingDataListener
         })
       } else {
         console.log('Using recordrtc Other')
@@ -393,7 +394,8 @@ export const useConversation = (
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
           timeSlice: timeSlice,
-          desiredSampRate: 16000
+          desiredSampRate: 16000,
+          ondataavailable: recordingDataListener
         })
       }
 
