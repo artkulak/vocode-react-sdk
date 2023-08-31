@@ -164,7 +164,6 @@ export const useConversation = (
     );
     if (isSafari && transcriberConfig.type === "transcriber_deepgram") {
       (transcriberConfig as DeepgramTranscriberConfig).downsampling = 2;
-      (transcriberConfig as DeepgramTranscriberConfig).audioEncoding = "none";
     }
 
     return {
@@ -206,7 +205,6 @@ export const useConversation = (
   });
 
   const startConversation = async () => {
-    debugger;
     if (!audioContext || !audioAnalyser) return;
     setStatus("connecting");
 
