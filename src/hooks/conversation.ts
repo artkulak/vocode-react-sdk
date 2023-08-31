@@ -382,35 +382,55 @@ export const useConversation = (
       //   });
       // }
 
-      if (isSafari) {
-        console.log('Using recordrtc Safari', timeSlice)
-        recorderToUse = RecordRTC(audioStream, {
-          type: 'audio',
-          mimeType: 'audio/wav',
-          sampleRate: micSettings.sampleRate,
-          recorderType: StereoAudioRecorder,
-          numberOfAudioChannels: 1,
-          timeSlice: timeSlice,
-          desiredSampRate: 16000,
-          //bufferSize: DEFAULT_CHUNK_SIZE,
-          getNativeBlob: true,
-          ondataavailable: recordingDataListener
-        })
-      } else {
-        console.log('Using recordrtc Other', timeSlice)
-        recorderToUse = RecordRTC(audioStream, {
-          type: 'audio',
-          mimeType: 'audio/wav',
-          sampleRate: micSettings.sampleRate,
-          recorderType: StereoAudioRecorder,
-          numberOfAudioChannels: 1,
-          timeSlice: timeSlice,
-          desiredSampRate: 16000,
-          //bufferSize: DEFAULT_CHUNK_SIZE,
-          getNativeBlob: true,
-          ondataavailable: recordingDataListener
-        })
-      }
+      // once the conversation is connected, stream the microphone audio into the socket
+      React.useEffect(() => {
+        if (!recorder || !socket) return;
+        if (status === "connected") {
+          recorderToUse = RecordRTC(audioStream, {
+            type: 'audio',
+            mimeType: 'audio/wav',
+            sampleRate: micSettings.sampleRate,
+            recorderType: StereoAudioRecorder,
+            numberOfAudioChannels: 1,
+            timeSlice: timeSlice,
+            desiredSampRate: 16000,
+            //bufferSize: DEFAULT_CHUNK_SIZE,
+            getNativeBlob: true,
+            ondataavailable: recordingDataListener
+          });
+          setRecorder(recorderToUse);
+        }
+      }, [recorder, socket, status, active]);
+
+      // if (isSafari) {
+      //   console.log('Using recordrtc Safari', timeSlice)
+      //   recorderToUse = RecordRTC(audioStream, {
+      //     type: 'audio',
+      //     mimeType: 'audio/wav',
+      //     sampleRate: micSettings.sampleRate,
+      //     recorderType: StereoAudioRecorder,
+      //     numberOfAudioChannels: 1,
+      //     timeSlice: timeSlice,
+      //     desiredSampRate: 16000,
+      //     //bufferSize: DEFAULT_CHUNK_SIZE,
+      //     getNativeBlob: true,
+      //     ondataavailable: recordingDataListener
+      //   })
+      // } else {
+      //   console.log('Using recordrtc Other', timeSlice)
+      //   recorderToUse = RecordRTC(audioStream, {
+      //     type: 'audio',
+      //     mimeType: 'audio/wav',
+      //     sampleRate: micSettings.sampleRate,
+      //     recorderType: StereoAudioRecorder,
+      //     numberOfAudioChannels: 1,
+      //     timeSlice: timeSlice,
+      //     desiredSampRate: 16000,
+      //     //bufferSize: DEFAULT_CHUNK_SIZE,
+      //     getNativeBlob: true,
+      //     ondataavailable: recordingDataListener
+      //   })
+      // }
       setRecorder(recorderToUse);
     }
 
