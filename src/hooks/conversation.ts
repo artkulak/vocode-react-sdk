@@ -24,6 +24,8 @@ import { DeepgramTranscriberConfig, TranscriberConfig } from "../types";
 import { isSafari, isChrome } from "react-device-detect";
 import { Buffer } from "buffer";
 
+import { RecordRTC, StereoAudioRecorder } from 'recordrtc'
+
 const VOCODE_API_URL = "api.vocode.dev";
 const DEFAULT_CHUNK_SIZE = 2048;
 
@@ -134,7 +136,8 @@ export const useConversation = (
       setStatus("idle");
     }
     if (!recorder || !socket) return;
-    recorder.stop();
+    // recorder.stop(); TODO: return for MediaRecorder
+    recorder.stopRecording();
     const stopMessage: StopMessage = {
       type: "websocket_stop",
     };
@@ -339,24 +342,33 @@ export const useConversation = (
 
     socket.send(stringify(startMessage));
     console.log("Access to microphone granted");
-    console.log(startMessage);
 
     let recorderToUse = recorder;
     if (recorderToUse && recorderToUse.state === "paused") {
-      recorderToUse.resume();
+      // recorderToUse.resume(); TODO: return for media recorder
+      recorderToUse.resumeRecording()
     } else if (!recorderToUse) {
-      if (isSafari) {
-        console.log('Using video/mp4 mime type')
-        recorderToUse = new MediaRecorder(audioStream, {
-          mimeType: "audio/wav" //"audio/ogg" //"video/mp4",
-        });
-      }
-      else {
-        console.log('Using audio/wav mime type')
-        recorderToUse = new MediaRecorder(audioStream, {
-          mimeType: "audio/mp3",
-        });
-      }
+      // if (isSafari) {
+      //   console.log('Using video/mp4 mime type')
+      //   recorderToUse = new MediaRecorder(audioStream, {
+      //     mimeType: "audio/wav" //"audio/ogg" //"video/mp4",
+      //   });
+      // }
+      // else {
+      //   console.log('Using audio/wav mime type')
+      //   recorderToUse = new MediaRecorder(audioStream, {
+      //     mimeType: "audio/wav",
+      //   });
+      // }
+      recorderToUse = RecordRTC(audioStream, {
+        type: 'audio',
+        mimeType: 'audio/webm',
+        sampleRate: 44100,
+        recorderType: StereoAudioRecorder,
+        numberOfAudioChannels: 1,
+        timeSlice: 4000,
+        desiredSampRate: 16000
+      })
 
       setRecorder(recorderToUse);
     }
@@ -380,7 +392,8 @@ export const useConversation = (
       // https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/start.
       return;
     }
-    recorderToUse.start(timeSlice);
+    // recorderToUse.start(timeSlice); TODO: return for MediaRecorder
+    recorderToUse.startRecording();
   };
 
   return {
