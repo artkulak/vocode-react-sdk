@@ -51,6 +51,7 @@ export const useConversation = (
   const [processing, setProcessing] = React.useState(false);
   const [recorder, setRecorder] = React.useState(); //TODO: remove for Media Recorder React.useState<IMediaRecorder>();
   const [socket, setSocket] = React.useState<WebSocket>();
+  const socketRef = React.useRef<WebSocket | null>(null);
   const [status, setStatus] = React.useState<ConversationStatus>("idle");
   const [error, setError] = React.useState<Error>();
   const [transcripts, setTranscripts] = React.useState<Transcript[]>([]);
@@ -65,9 +66,12 @@ export const useConversation = (
     setAudioAnalyser(audioAnalyser);
   }, []);
 
+  // when socket state changes
+  React.useEffect(() => {
+    socketRef.current = socket;
+  }, [socket]);
+
   const recordingDataListener = (data) => { // TODO: { data }: { data: Blob }
-    console.log('Status', status)
-    if (status !== "connected") return;
     // var a = document.createElement("a");
     // document.body.appendChild(a);
     // // a.style = "display: none";
@@ -80,9 +84,10 @@ export const useConversation = (
         type: "websocket_audio",
         data: base64Encoded,
       };
-      console.log(socket, socket?.readyState)
-      socket?.readyState === WebSocket.OPEN &&
-        socket.send(stringify(audioMessage));
+      const currentSocket = socketRef.current;
+      console.log(currentSocket, currentSocket?.readyState)
+      currentSocket?.readyState === WebSocket.OPEN &&
+        currentSocket.send(stringify(audioMessage));
     });
   };
 
@@ -238,7 +243,6 @@ export const useConversation = (
       if (message.type === "websocket_audio") {
         setAudioQueue((prev) => [...prev, Buffer.from(message.data, "base64")]);
       } else if (message.type === "websocket_ready") {
-        console.log('Set status to connected')
         setStatus("connected");
       } else if (message.type == "websocket_transcript") {
         setTranscripts((prev) => {
