@@ -67,6 +67,7 @@ export const useConversation = (
   }, []);
 
   const recordingDataListener = (data) => { // TODO: { data }: { data: Blob }
+    if (status !== "connected") return;
     // var a = document.createElement("a");
     // document.body.appendChild(a);
     // // a.style = "display: none";
@@ -89,22 +90,6 @@ export const useConversation = (
   React.useEffect(() => {
     if (!recorder || !socket) return;
     if (status === "connected") {
-      if (active) {
-        let recorderToUse = RecordRTC(audioStream, {
-          type: 'audio',
-          mimeType: 'audio/wav',
-          sampleRate: 48000,
-          recorderType: StereoAudioRecorder,
-          numberOfAudioChannels: 1,
-          timeSlice: 10,
-          desiredSampRate: 16000,
-          //bufferSize: DEFAULT_CHUNK_SIZE,
-          getNativeBlob: true,
-          ondataavailable: recordingDataListener
-        });
-        setRecorder(recorderToUse);
-        recorderToUse.startRecording();
-      }
       // if (active)
       //   recorder.addEventListener("dataavailable", recordingDataListener);
       // else
@@ -234,11 +219,6 @@ export const useConversation = (
   const startConversation = async () => {
     if (!audioContext || !audioAnalyser) return;
     setStatus("connecting");
-
-    // if (!isSafari && !isChrome) {
-    //   stopConversation(new Error("Unsupported browser"));
-    //   return;
-    // }
 
     if (audioContext.state === "suspended") {
       audioContext.resume();
@@ -401,19 +381,19 @@ export const useConversation = (
       // }
 
       // once the conversation is connected, stream the microphone audio into the socket
-      // recorderToUse = RecordRTC(audioStream, {
-      //   type: 'audio',
-      //   mimeType: 'audio/wav',
-      //   sampleRate: micSettings.sampleRate,
-      //   recorderType: StereoAudioRecorder,
-      //   numberOfAudioChannels: 1,
-      //   timeSlice: timeSlice,
-      //   desiredSampRate: 16000,
-      //   //bufferSize: DEFAULT_CHUNK_SIZE,
-      //   getNativeBlob: true,
-      //   ondataavailable: recordingDataListener
-      // });
-      // setRecorder(recorderToUse);
+      recorderToUse = RecordRTC(audioStream, {
+        type: 'audio',
+        mimeType: 'audio/wav',
+        sampleRate: micSettings.sampleRate,
+        recorderType: StereoAudioRecorder,
+        numberOfAudioChannels: 1,
+        timeSlice: timeSlice,
+        desiredSampRate: 16000,
+        //bufferSize: DEFAULT_CHUNK_SIZE,
+        getNativeBlob: true,
+        ondataavailable: recordingDataListener
+      });
+      setRecorder(recorderToUse);
 
       // if (isSafari) {
       //   console.log('Using recordrtc Safari', timeSlice)
@@ -449,15 +429,15 @@ export const useConversation = (
 
 
 
-    // if (recorderToUse.state === "recording") {
-    //   // When the recorder is in the recording state, see:
-    //   // https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/state
-    //   // which is not expected to call `start()` according to:
-    //   // https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/start.
-    //   return;
-    // }
+    if (recorderToUse.state === "recording") {
+      // When the recorder is in the recording state, see:
+      // https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/state
+      // which is not expected to call `start()` according to:
+      // https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/start.
+      return;
+    }
     // recorderToUse.start(timeSlice); TODO: return for MediaRecorder
-    // recorderToUse.startRecording();
+    recorderToUse.startRecording();
   };
 
   return {
