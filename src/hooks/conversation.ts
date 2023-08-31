@@ -55,6 +55,7 @@ export const useConversation = (
   const [error, setError] = React.useState<Error>();
   const [transcripts, setTranscripts] = React.useState<Transcript[]>([]);
   const [active, setActive] = React.useState(true);
+  const [audioStream, setAudioStream] = React.useState()
   const toggleActive = () => setActive(!active);
 
   // get audio context and metadata about user audio
@@ -88,6 +89,21 @@ export const useConversation = (
   React.useEffect(() => {
     if (!recorder || !socket) return;
     if (status === "connected") {
+      if (active) {
+        let recorderToUse = RecordRTC(audioStream, {
+          type: 'audio',
+          mimeType: 'audio/wav',
+          sampleRate: 48000,
+          recorderType: StereoAudioRecorder,
+          numberOfAudioChannels: 1,
+          timeSlice: 10,
+          desiredSampRate: 16000,
+          //bufferSize: DEFAULT_CHUNK_SIZE,
+          getNativeBlob: true,
+          ondataavailable: recordingDataListener
+        });
+        setRecorder(recorderToUse);
+      }
       // if (active)
       //   recorder.addEventListener("dataavailable", recordingDataListener);
       // else
@@ -296,6 +312,7 @@ export const useConversation = (
         //audio: true
         audio: trackConstraints,
       });
+      setAudioStream(audioStream)
     } catch (error) {
       if (error instanceof DOMException && error.name === "NotAllowedError") {
         alert(
@@ -383,24 +400,6 @@ export const useConversation = (
       // }
 
       // once the conversation is connected, stream the microphone audio into the socket
-      React.useEffect(() => {
-        if (!recorder || !socket) return;
-        if (status === "connected") {
-          recorderToUse = RecordRTC(audioStream, {
-            type: 'audio',
-            mimeType: 'audio/wav',
-            sampleRate: micSettings.sampleRate,
-            recorderType: StereoAudioRecorder,
-            numberOfAudioChannels: 1,
-            timeSlice: timeSlice,
-            desiredSampRate: 16000,
-            //bufferSize: DEFAULT_CHUNK_SIZE,
-            getNativeBlob: true,
-            ondataavailable: recordingDataListener
-          });
-          setRecorder(recorderToUse);
-        }
-      }, [recorder, socket, status, active]);
 
       // if (isSafari) {
       //   console.log('Using recordrtc Safari', timeSlice)
@@ -431,7 +430,7 @@ export const useConversation = (
       //     ondataavailable: recordingDataListener
       //   })
       // }
-      setRecorder(recorderToUse);
+      // setRecorder(recorderToUse);
     }
 
 
