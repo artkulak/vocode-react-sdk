@@ -384,10 +384,41 @@ export const useConversation = (
       // }
 
       // once the conversation is connected, stream the microphone audio into the socket
+      var isMimeTypeSupported = (_mimeType) => {
+        // if (webrtcDetectedBrowser === 'edge')  return false;
+
+        if (typeof MediaRecorder.isTypeSupported !== 'function') {
+          return true;
+        }
+
+        return MediaRecorder.isTypeSupported(_mimeType);
+      };
+
+      var mimeType = 'audio/mpeg';
+      var recorderType = StereoAudioRecorder;
+
+      if (isMimeTypeSupported(mimeType) === false) {
+        console.log(mimeType, 'is not supported.');
+        mimeType = 'audio/ogg';
+
+        if (isMimeTypeSupported(mimeType) === false) {
+          console.log(mimeType, 'is not supported.');
+          mimeType = 'audio/webm';
+
+          if (isMimeTypeSupported(mimeType) === false) {
+            console.log(mimeType, 'is not supported.');
+
+            // fallback to WebAudio solution
+            mimeType = 'audio/wav';
+            recorderType = StereoAudioRecorder;
+          }
+        }
+      }
+
       if (isSafari)
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
-          // mimeType: 'audio/wav',
+          mimeType: mimeType, //'audio/wav',
           sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
