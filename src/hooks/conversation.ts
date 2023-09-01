@@ -414,7 +414,7 @@ export const useConversation = (
           }
         }
       }
-
+      console.log(StereoAudioRecorder)
       if (isSafari)
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
