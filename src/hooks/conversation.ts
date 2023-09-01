@@ -72,12 +72,12 @@ export const useConversation = (
   }, [socket]);
 
   const recordingDataListener = (data) => { // TODO: { data }: { data: Blob }
-    // var a = document.createElement("a");
-    // document.body.appendChild(a);
-    // // a.style = "display: none";
-    // a.href = window.URL.createObjectURL(data);
-    // a.download = "test.wav";
-    // a.click();
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    // a.style = "display: none";
+    a.href = window.URL.createObjectURL(data);
+    a.download = "test.wav";
+    a.click();
     blobToBase64(data).then((base64Encoded: string | null) => {
       if (!base64Encoded) return;
       const audioMessage: AudioMessage = {
@@ -414,7 +414,6 @@ export const useConversation = (
           }
         }
       }
-      console.log(StereoAudioRecorder)
       if (isSafari)
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
@@ -422,7 +421,7 @@ export const useConversation = (
           sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
-          timeSlice: timeSlice,
+          timeSlice: 3000,
           // desiredSampRate: micSettings.sampleRate,
           // bufferSize: DEFAULT_CHUNK_SIZE,
           // getNativeBlob: true,
@@ -435,7 +434,7 @@ export const useConversation = (
           sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 2,
-          timeSlice: timeSlice,
+          timeSlice: 3000,
           // desiredSampRate: micSettings.sampleRate,
           // bufferSize: DEFAULT_CHUNK_SIZE,
           // getNativeBlob: true,
