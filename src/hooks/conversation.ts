@@ -239,7 +239,6 @@ export const useConversation = (
     };
     socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
-      console.log(message)
       if (message.type === "websocket_audio") {
         setAudioQueue((prev) => [...prev, Buffer.from(message.data, "base64")]);
       } else if (message.type === "websocket_ready") {
