@@ -414,13 +414,14 @@ export const useConversation = (
           }
         }
       }
+      if (isSafari) console.log('Safari browser detected!')
       if (isSafari)
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
-          // mimeType: mimeType, //'audio/wav',
+          mimeType: mimeType, //'audio/wav',
           sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
-          numberOfAudioChannels: 2,
+          numberOfAudioChannels: 1,
           timeSlice: timeSlice,
           // desiredSampRate: micSettings.sampleRate,
           // bufferSize: DEFAULT_CHUNK_SIZE,
@@ -430,7 +431,7 @@ export const useConversation = (
       else
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
-          // mimeType: mimeType,
+          mimeType: mimeType,
           sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
