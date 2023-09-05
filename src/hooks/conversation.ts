@@ -58,7 +58,7 @@ export const useConversation = (
   const [active, setActive] = React.useState(true);
   const toggleActive = () => setActive(!active);
 
-  console.log('VOCODE SDK activated')
+  console.log('SDK activated')
 
   // get audio context and metadata about user audio
   React.useEffect(() => {
