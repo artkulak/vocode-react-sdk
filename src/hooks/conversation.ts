@@ -420,7 +420,7 @@ export const useConversation = (
           // mimeType: mimeType, //'audio/wav',
           sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
-          numberOfAudioChannels: 1,
+          numberOfAudioChannels: 2,
           timeSlice: timeSlice,
           // desiredSampRate: micSettings.sampleRate,
           // bufferSize: DEFAULT_CHUNK_SIZE,
