@@ -418,7 +418,7 @@ export const useConversation = (
       if (isSafari)
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
-          mimeType: mimeType, //'audio/wav',
+          // mimeType: mimeType, //'audio/wav',
           sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
@@ -431,7 +431,7 @@ export const useConversation = (
       else
         recorderToUse = RecordRTC(audioStream, {
           type: 'audio',
-          mimeType: mimeType,
+          //mimeType: mimeType,
           sampleRate: micSettings.sampleRate,
           recorderType: StereoAudioRecorder,
           numberOfAudioChannels: 1,
