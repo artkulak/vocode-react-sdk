@@ -250,9 +250,8 @@ export const useConversation = (
       } else if (message.type == "websocket_transcript") {
         setTranscripts((prev) => {
           let last = prev.pop();
-          console.log('HERE')
-          if (last) {
-            console.log('SENDER', last.sender)
+          console.log('SENDER', message.sender)
+          if (message.sender == 'bot') {
             if (last) {
               prev.push(last);
             }
