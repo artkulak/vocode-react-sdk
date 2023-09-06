@@ -139,6 +139,7 @@ export const useConversation = (
     }
   }, [audioQueue, processing]);
 
+  let audioStream;
   const stopConversation = (error?: Error) => {
     setAudioQueue([]);
     setCurrentSpeaker("none");
@@ -152,6 +153,7 @@ export const useConversation = (
     if (!recorder || !socket) return;
     // recorder.stop(); TODO: return for MediaRecorder
     recorder.stopRecording();
+    audioStream.stop();
     const stopMessage: StopMessage = {
       type: "websocket_stop",
     };
@@ -281,7 +283,6 @@ export const useConversation = (
     setSocket(socket);
 
 
-    let audioStream;
     try {
       const trackConstraints: MediaTrackConstraints = {
         echoCancellation: true,
