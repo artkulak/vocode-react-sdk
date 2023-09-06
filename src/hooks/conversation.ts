@@ -50,6 +50,7 @@ export const useConversation = (
     React.useState<CurrentSpeaker>("none");
   const [processing, setProcessing] = React.useState(false);
   const [recorder, setRecorder] = React.useState(); //TODO: remove for Media Recorder React.useState<IMediaRecorder>();
+  const [audioStreamRef, setAudioStreamRef] = React.useState();
   const [socket, setSocket] = React.useState<WebSocket>();
   const socketRef = React.useRef<WebSocket | null>(null);
   const [status, setStatus] = React.useState<ConversationStatus>("idle");
@@ -153,7 +154,7 @@ export const useConversation = (
     if (!recorder || !socket) return;
     // recorder.stop(); TODO: return for MediaRecorder
     recorder.stopRecording();
-    audioStream.stop();
+    audioStreamRef.stop();
     const stopMessage: StopMessage = {
       type: "websocket_stop",
     };
@@ -299,6 +300,7 @@ export const useConversation = (
         //audio: true
         audio: trackConstraints,
       });
+      setAudioStreamRef(audioStream);
     } catch (error) {
       if (error instanceof DOMException && error.name === "NotAllowedError") {
         alert(
