@@ -148,6 +148,7 @@ export const useConversation = (
     } else {
       setStatus("idle");
     }
+    console.log('Stopping conversation', recorder)
     if (!recorder || !socket) return;
     // recorder.stop(); TODO: return for MediaRecorder
     recorder.stopRecording();
