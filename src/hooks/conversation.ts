@@ -283,19 +283,19 @@ export const useConversation = (
       }
     };
     socket.onclose = () => {
-      if (websocketRetries < MAX_RETRIES) {
-        console.log('WebSocket connection closed, retrying...', event);
-        setTimeout(() => {
-          console.log('Retrying WebSocket connection...');
-          startConversation();  // make sure this handles re-establishing the websocket connection
-          setWebsocketRetries(websocketRetries + 1);
-        }, 5000); // delay in ms before attempting to reconnect
-      } else {
-        console.log('WebSocket connection closed', event);
-        stopConversation(); // Stop the conversation if max retries have been exceeded
-      }
-      // console.log('Websocket connection closed!')
-      // stopConversation(error);
+      // if (websocketRetries < MAX_RETRIES) {
+      //   console.log('WebSocket connection closed, retrying...', event);
+      //   setTimeout(() => {
+      //     console.log('Retrying WebSocket connection...');
+      //     startConversation();  // make sure this handles re-establishing the websocket connection
+      //     setWebsocketRetries(websocketRetries + 1);
+      //   }, 5000); // delay in ms before attempting to reconnect
+      // } else {
+      //   console.log('WebSocket connection closed', event);
+      //   stopConversation(); // Stop the conversation if max retries have been exceeded
+      // }
+      console.log('Websocket connection closed!')
+      stopConversation(error);
     };
 
     // wait for socket to be ready
