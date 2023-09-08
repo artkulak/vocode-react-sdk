@@ -29,6 +29,8 @@ import RecordRTC, { StereoAudioRecorder } from 'recordrtc'
 const VOCODE_API_URL = "api.vocode.dev";
 const DEFAULT_CHUNK_SIZE = 2048;
 
+console.log('Voice SDK started.')
+
 export const useConversation = (
   config: ConversationConfig | SelfHostedConversationConfig
 ): {
