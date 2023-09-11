@@ -60,7 +60,7 @@ export const useConversation = (
   const [transcripts, setTranscripts] = React.useState<Transcript[]>([]);
   const [active, setActive] = React.useState(true);
   const [websocketRetries, setWebsocketRetries] = React.useState(0);
-  const MAX_RETRIES = 1;
+  const MAX_RETRIES = 2;
   const toggleActive = () => setActive(!active);
 
   // get audio context and metadata about user audio
@@ -283,17 +283,18 @@ export const useConversation = (
       }
     };
     socket.onclose = () => {
-      // if (websocketRetries < MAX_RETRIES) {
-      //   console.log('WebSocket connection closed, retrying...', event);
-      //   setTimeout(() => {
-      //     console.log('Retrying WebSocket connection...');
-      //     startConversation();  // make sure this handles re-establishing the websocket connection
-      //     setWebsocketRetries(websocketRetries + 1);
-      //   }, 5000); // delay in ms before attempting to reconnect
-      // } else {
-      //   console.log('WebSocket connection closed', event);
-      //   stopConversation(); // Stop the conversation if max retries have been exceeded
-      // }
+      console.log('Socket closed, attempting to reconnect..')
+      if (websocketRetries < MAX_RETRIES) {
+        console.log('WebSocket connection closed, retrying...', event);
+        setTimeout(() => {
+          console.log('Retrying WebSocket connection...');
+          startConversation();  // make sure this handles re-establishing the websocket connection
+          setWebsocketRetries(websocketRetries + 1);
+        }, 1000); // delay in ms before attempting to reconnect
+      } else {
+        console.log('WebSocket connection closed', event);
+        stopConversation(); // Stop the conversation if max retries have been exceeded
+      }
       console.log('Websocket connection closed!')
       stopConversation(error);
     };
