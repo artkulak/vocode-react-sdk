@@ -90,7 +90,6 @@ export const useConversation = (
         data: base64Encoded,
       };
       const currentSocket = socketRef.current;
-      console.log(currentSocket)
       currentSocket?.readyState === WebSocket.OPEN &&
         currentSocket.send(stringify(audioMessage));
     });
@@ -165,6 +164,7 @@ export const useConversation = (
     };
     socket.send(stringify(stopMessage));
     socket.close();
+    setRecorder(null);
   };
 
   const getBackendUrl = async () => {
