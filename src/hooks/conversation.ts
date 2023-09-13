@@ -74,7 +74,6 @@ export const useConversation = (
   // when socket state changes
   React.useEffect(() => {
     socketRef.current = socket;
-    console.log('websocket updated!')
   }, [socket]);
 
   const recordingDataListener = (data) => { // TODO: { data }: { data: Blob }
@@ -91,6 +90,7 @@ export const useConversation = (
         data: base64Encoded,
       };
       const currentSocket = socketRef.current;
+      console.log(currentSocket)
       currentSocket?.readyState === WebSocket.OPEN &&
         currentSocket.send(stringify(audioMessage));
     });
