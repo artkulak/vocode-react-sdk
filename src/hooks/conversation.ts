@@ -74,6 +74,7 @@ export const useConversation = (
   // when socket state changes
   React.useEffect(() => {
     socketRef.current = socket;
+    console.log('websocket updated!')
   }, [socket]);
 
   const recordingDataListener = (data) => { // TODO: { data }: { data: Blob }
