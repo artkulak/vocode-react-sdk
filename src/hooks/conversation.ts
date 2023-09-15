@@ -44,8 +44,8 @@ export const useConversation = (
   analyserNode: AnalyserNode | undefined;
   transcripts: Transcript[];
   currentSpeaker: CurrentSpeaker;
-  muteMic: () => void;
-  unmuteMic: () => void;
+  // muteMic: () => void;
+  // unmuteMic: () => void;
 } => {
   const [audioContext, setAudioContext] = React.useState<AudioContext>();
   const [audioAnalyser, setAudioAnalyser] = React.useState<AnalyserNode>();
@@ -548,7 +548,7 @@ export const useConversation = (
     analyserNode: audioAnalyser,
     transcripts,
     currentSpeaker,
-    muteMic,
-    unmuteMic,
+    // muteMic,
+    // unmuteMic,
   };
 };
