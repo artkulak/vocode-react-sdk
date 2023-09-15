@@ -44,6 +44,8 @@ export const useConversation = (
   analyserNode: AnalyserNode | undefined;
   transcripts: Transcript[];
   currentSpeaker: CurrentSpeaker;
+  muteMic: () => void;
+  unmuteMic: () => void;
 } => {
   const [audioContext, setAudioContext] = React.useState<AudioContext>();
   const [audioAnalyser, setAudioAnalyser] = React.useState<AnalyserNode>();
@@ -520,6 +522,21 @@ export const useConversation = (
     recorderToUse.startRecording();
   };
 
+
+  // mute microphone 
+  const muteMic = React.useCallback(() => {
+    if (audioStreamRef && audioStreamRef.getAudioTracks().length > 0) {
+      audioStreamRef.getAudioTracks()[0].enabled = false;
+    }
+  }, [audioStreamRef]);
+
+  // unmute microphone
+  const unmuteMic = React.useCallback(() => {
+    if (audioStreamRef && audioStreamRef.getAudioTracks().length > 0) {
+      audioStreamRef.getAudioTracks()[0].enabled = true;
+    }
+  }, [audioStreamRef]);
+
   return {
     status,
     start: startConversation,
@@ -531,5 +548,7 @@ export const useConversation = (
     analyserNode: audioAnalyser,
     transcripts,
     currentSpeaker,
+    muteMic,
+    unmuteMic,
   };
 };
