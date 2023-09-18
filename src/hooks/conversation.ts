@@ -526,6 +526,7 @@ export const useConversation = (
   // mute microphone 
   const muteMic = React.useCallback(() => {
     if (audioStreamRef && audioStreamRef.getAudioTracks().length > 0) {
+      console.log('muteMic', audioStreamRef)
       audioStreamRef.getAudioTracks()[0].enabled = false;
     }
   }, [audioStreamRef]);
