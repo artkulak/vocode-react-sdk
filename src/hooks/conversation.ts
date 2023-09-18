@@ -524,7 +524,7 @@ export const useConversation = (
 
 
   // mute microphone 
-  const muteMic = React.useCallback(() => {
+  const muteMic = React.useCallback(async () => {
     if (audioStreamRef && audioStreamRef.getAudioTracks().length > 0) {
       console.log('muteMic', audioStreamRef)
       audioStreamRef.getAudioTracks()[0].enabled = false;
@@ -532,8 +532,9 @@ export const useConversation = (
   }, [audioStreamRef]);
 
   // unmute microphone
-  const unmuteMic = React.useCallback(() => {
+  const unmuteMic = React.useCallback(async () => {
     if (audioStreamRef && audioStreamRef.getAudioTracks().length > 0) {
+      console.log('unmuteMic', audioStreamRef)
       audioStreamRef.getAudioTracks()[0].enabled = true;
     }
   }, [audioStreamRef]);
