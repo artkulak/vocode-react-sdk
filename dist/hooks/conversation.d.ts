@@ -10,4 +10,6 @@ export declare const useConversation: (config: ConversationConfig | SelfHostedCo
     analyserNode: AnalyserNode | undefined;
     transcripts: Transcript[];
     currentSpeaker: CurrentSpeaker;
+    muteMic: () => void;
+    unmuteMic: () => void;
 };

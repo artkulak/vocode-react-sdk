@@ -458,6 +458,20 @@ const useConversation = (config) => {
         // recorderToUse.start(timeSlice); TODO: return for MediaRecorder
         recorderToUse.startRecording();
     });
+    // mute microphone 
+    const muteMic = react_1.default.useCallback(() => __awaiter(void 0, void 0, void 0, function* () {
+        if (audioStreamRef && audioStreamRef.getAudioTracks().length > 0) {
+            console.log('muteMic', audioStreamRef);
+            audioStreamRef.getAudioTracks()[0].enabled = false;
+        }
+    }), [audioStreamRef]);
+    // unmute microphone
+    const unmuteMic = react_1.default.useCallback(() => __awaiter(void 0, void 0, void 0, function* () {
+        if (audioStreamRef && audioStreamRef.getAudioTracks().length > 0) {
+            console.log('unmuteMic', audioStreamRef);
+            audioStreamRef.getAudioTracks()[0].enabled = true;
+        }
+    }), [audioStreamRef]);
     return {
         status,
         start: startConversation,
@@ -469,6 +483,8 @@ const useConversation = (config) => {
         analyserNode: audioAnalyser,
         transcripts,
         currentSpeaker,
+        muteMic,
+        unmuteMic,
     };
 };
 exports.useConversation = useConversation;
