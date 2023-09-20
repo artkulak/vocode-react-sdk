@@ -46,6 +46,8 @@ export const useConversation = (
   currentSpeaker: CurrentSpeaker;
   muteMic: () => void;
   unmuteMic: () => void;
+  muteSound: () => void;
+  unmuteSound: () => void;
 } => {
   const [audioContext, setAudioContext] = React.useState<AudioContext>();
   const [audioAnalyser, setAudioAnalyser] = React.useState<AnalyserNode>();
@@ -55,6 +57,7 @@ export const useConversation = (
   const [processing, setProcessing] = React.useState(false);
   const [recorder, setRecorder] = React.useState(); //TODO: remove for Media Recorder React.useState<IMediaRecorder>();
   const [audioStreamRef, setAudioStreamRef] = React.useState();
+  const [isSoundsMuted, setIsSoundMuted] = React.useState(false);
   const [socket, setSocket] = React.useState<WebSocket>();
   const socketRef = React.useRef<WebSocket | null>(null);
   const [status, setStatus] = React.useState<ConversationStatus>("idle");
@@ -139,10 +142,12 @@ export const useConversation = (
     if (!processing && audioQueue.length > 0) {
       setProcessing(true);
       const audio = audioQueue.shift();
-      audio &&
-        fetch(URL.createObjectURL(new Blob([audio])))
-          .then((response) => response.arrayBuffer())
-          .then(playArrayBuffer);
+      if (!isSoundsMuted)
+        audio &&
+          fetch(URL.createObjectURL(new Blob([audio])))
+            .then((response) => response.arrayBuffer())
+            .then(playArrayBuffer);
+      else setProcessing(false);
     }
   }, [audioQueue, processing]);
 
@@ -539,6 +544,17 @@ export const useConversation = (
     }
   }, [audioStreamRef]);
 
+
+  // mute sound 
+  const muteSound = React.useCallback(async () => {
+    setIsSoundMuted(true);
+  }, [isSoundsMuted]);
+
+  // unmute sound 
+  const unmuteSound = React.useCallback(async () => {
+    setIsSoundMuted(false);
+  }, [isSoundsMuted]);
+
   return {
     status,
     start: startConversation,
@@ -552,5 +568,7 @@ export const useConversation = (
     currentSpeaker,
     muteMic,
     unmuteMic,
+    muteSound,
+    unmuteSound
   };
 };
