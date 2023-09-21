@@ -54,6 +54,7 @@ const useConversation = (config) => {
     const [processing, setProcessing] = react_1.default.useState(false);
     const [recorder, setRecorder] = react_1.default.useState(); //TODO: remove for Media Recorder React.useState<IMediaRecorder>();
     const [audioStreamRef, setAudioStreamRef] = react_1.default.useState();
+    const [isSoundsMuted, setIsSoundMuted] = react_1.default.useState(false);
     const [socket, setSocket] = react_1.default.useState();
     const socketRef = react_1.default.useRef(null);
     const [status, setStatus] = react_1.default.useState("idle");
@@ -134,10 +135,13 @@ const useConversation = (config) => {
         if (!processing && audioQueue.length > 0) {
             setProcessing(true);
             const audio = audioQueue.shift();
-            audio &&
-                fetch(URL.createObjectURL(new Blob([audio])))
-                    .then((response) => response.arrayBuffer())
-                    .then(playArrayBuffer);
+            if (!isSoundsMuted)
+                audio &&
+                    fetch(URL.createObjectURL(new Blob([audio])))
+                        .then((response) => response.arrayBuffer())
+                        .then(playArrayBuffer);
+            else
+                setProcessing(false);
         }
     }, [audioQueue, processing]);
     let audioStream;
@@ -459,19 +463,21 @@ const useConversation = (config) => {
         recorderToUse.startRecording();
     });
     // mute microphone 
-    const muteMic = react_1.default.useCallback(() => __awaiter(void 0, void 0, void 0, function* () {
+    const muteMic = react_1.default.useCallback((mute) => __awaiter(void 0, void 0, void 0, function* () {
         if (audioStreamRef && audioStreamRef.getAudioTracks().length > 0) {
-            console.log('muteMic', audioStreamRef);
-            audioStreamRef.getAudioTracks()[0].enabled = false;
+            if (mute)
+                audioStreamRef.getAudioTracks()[0].enabled = false;
+            else
+                audioStreamRef.getAudioTracks()[0].enabled = true;
         }
     }), [audioStreamRef]);
-    // unmute microphone
-    const unmuteMic = react_1.default.useCallback(() => __awaiter(void 0, void 0, void 0, function* () {
-        if (audioStreamRef && audioStreamRef.getAudioTracks().length > 0) {
-            console.log('unmuteMic', audioStreamRef);
-            audioStreamRef.getAudioTracks()[0].enabled = true;
-        }
-    }), [audioStreamRef]);
+    // mute sound 
+    const muteSound = react_1.default.useCallback((mute) => __awaiter(void 0, void 0, void 0, function* () {
+        if (mute)
+            setIsSoundMuted(true);
+        else
+            setIsSoundMuted(false);
+    }), [isSoundsMuted]);
     return {
         status,
         start: startConversation,
@@ -484,7 +490,7 @@ const useConversation = (config) => {
         transcripts,
         currentSpeaker,
         muteMic,
-        unmuteMic,
+        muteSound
     };
 };
 exports.useConversation = useConversation;
