@@ -44,10 +44,8 @@ export const useConversation = (
   analyserNode: AnalyserNode | undefined;
   transcripts: Transcript[];
   currentSpeaker: CurrentSpeaker;
-  muteMic: () => void;
-  unmuteMic: () => void;
-  muteSound: () => void;
-  unmuteSound: () => void;
+  muteMic: (mute: boolean) => void;
+  muteSound: (mute: boolean) => void;
 } => {
   const [audioContext, setAudioContext] = React.useState<AudioContext>();
   const [audioAnalyser, setAudioAnalyser] = React.useState<AnalyserNode>();
@@ -529,30 +527,22 @@ export const useConversation = (
 
 
   // mute microphone 
-  const muteMic = React.useCallback(async () => {
+  const muteMic = React.useCallback(async (mute: boolean) => {
     if (audioStreamRef && audioStreamRef.getAudioTracks().length > 0) {
-      console.log('muteMic', audioStreamRef)
-      audioStreamRef.getAudioTracks()[0].enabled = false;
-    }
-  }, [audioStreamRef]);
-
-  // unmute microphone
-  const unmuteMic = React.useCallback(async () => {
-    if (audioStreamRef && audioStreamRef.getAudioTracks().length > 0) {
-      console.log('unmuteMic', audioStreamRef)
-      audioStreamRef.getAudioTracks()[0].enabled = true;
+      if (mute)
+        audioStreamRef.getAudioTracks()[0].enabled = false;
+      else
+        audioStreamRef.getAudioTracks()[0].enabled = true;
     }
   }, [audioStreamRef]);
 
 
   // mute sound 
-  const muteSound = React.useCallback(async () => {
-    setIsSoundMuted(true);
-  }, [isSoundsMuted]);
-
-  // unmute sound 
-  const unmuteSound = React.useCallback(async () => {
-    setIsSoundMuted(false);
+  const muteSound = React.useCallback(async (mute: boolean) => {
+    if (mute)
+      setIsSoundMuted(true);
+    else
+      setIsSoundMuted(false);
   }, [isSoundsMuted]);
 
   return {
@@ -567,8 +557,6 @@ export const useConversation = (
     transcripts,
     currentSpeaker,
     muteMic,
-    unmuteMic,
-    muteSound,
-    unmuteSound
+    muteSound
   };
 };
