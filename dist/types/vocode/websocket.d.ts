@@ -23,12 +23,24 @@ export interface OutputAudioConfig {
     samplingRate: number;
     audioEncoding: AudioEncoding;
 }
+export type ConversationData = {
+    user_id?: any;
+    user_first_name?: any;
+    user_last_name?: any;
+    user_interests?: any;
+    deeva_profile_id?: any;
+    deeva_memory?: any;
+    deeva_name?: any;
+    deeva_relationship_type?: any;
+    deeva_interests?: any;
+};
 export interface AudioConfigStartMessage extends WebSocketMessage {
     type: "websocket_audio_config_start";
     inputAudioConfig: InputAudioConfig;
     outputAudioConfig: OutputAudioConfig;
     conversationId?: string;
     subscribeTranscript?: boolean;
+    conversationData?: ConversationData;
 }
 export interface AudioMessage extends WebSocketMessage {
     type: "websocket_audio";

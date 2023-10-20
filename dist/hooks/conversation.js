@@ -46,7 +46,7 @@ const recordrtc_1 = __importStar(require("recordrtc"));
 const VOCODE_API_URL = "api.vocode.dev";
 const DEFAULT_CHUNK_SIZE = 2048;
 console.log('Voice SDK started.');
-const useConversation = (config) => {
+const useConversation = (config, conversationData) => {
     const [audioContext, setAudioContext] = react_1.default.useState();
     const [audioAnalyser, setAudioAnalyser] = react_1.default.useState();
     const [audioQueue, setAudioQueue] = react_1.default.useState([]);
@@ -193,7 +193,7 @@ const useConversation = (config) => {
             conversationId: config.vocodeConfig.conversationId,
         };
     };
-    const getAudioConfigStartMessage = (inputAudioMetadata, outputAudioMetadata, chunkSize, downsampling, conversationId, subscribeTranscript) => ({
+    const getAudioConfigStartMessage = (inputAudioMetadata, outputAudioMetadata, chunkSize, downsampling, conversationId, subscribeTranscript, conversationData) => ({
         type: "websocket_audio_config_start",
         inputAudioConfig: {
             samplingRate: inputAudioMetadata.samplingRate,
@@ -207,6 +207,7 @@ const useConversation = (config) => {
         },
         conversationId,
         subscribeTranscript,
+        conversationData
     });
     const startConversation = () => __awaiter(void 0, void 0, void 0, function* () {
         if (!audioContext || !audioAnalyser)
@@ -335,7 +336,7 @@ const useConversation = (config) => {
         }
         else {
             const selfHostedConversationConfig = config;
-            startMessage = getAudioConfigStartMessage(inputAudioMetadata, outputAudioMetadata, selfHostedConversationConfig.chunkSize, selfHostedConversationConfig.downsampling, selfHostedConversationConfig.conversationId, selfHostedConversationConfig.subscribeTranscript);
+            startMessage = getAudioConfigStartMessage(inputAudioMetadata, outputAudioMetadata, selfHostedConversationConfig.chunkSize, selfHostedConversationConfig.downsampling, selfHostedConversationConfig.conversationId, selfHostedConversationConfig.subscribeTranscript, conversationData);
         }
         socket.send((0, utils_1.stringify)(startMessage));
         console.log("Access to microphone granted");
