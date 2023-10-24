@@ -19,6 +19,7 @@ import {
   AudioMessage,
   StartMessage,
   StopMessage,
+  ConversationData
 } from "../types/vocode/websocket";
 import { DeepgramTranscriberConfig, TranscriberConfig } from "../types";
 import { isSafari, isChrome } from "react-device-detect";
@@ -32,7 +33,8 @@ const DEFAULT_CHUNK_SIZE = 2048;
 console.log('Voice SDK started.')
 
 export const useConversation = (
-  config: ConversationConfig | SelfHostedConversationConfig
+  config: ConversationConfig | SelfHostedConversationConfig,
+  conversationData: ConversationData
 ): {
   status: ConversationStatus;
   start: () => void;
@@ -217,7 +219,8 @@ export const useConversation = (
     chunkSize: number | undefined,
     downsampling: number | undefined,
     conversationId: string | undefined,
-    subscribeTranscript: boolean | undefined
+    subscribeTranscript: boolean | undefined,
+    conversationData: ConversationData,
   ): AudioConfigStartMessage => ({
     type: "websocket_audio_config_start",
     inputAudioConfig: {
@@ -232,6 +235,7 @@ export const useConversation = (
     },
     conversationId,
     subscribeTranscript,
+    conversationData
   });
 
   const startConversation = async () => {
@@ -384,7 +388,8 @@ export const useConversation = (
         selfHostedConversationConfig.chunkSize,
         selfHostedConversationConfig.downsampling,
         selfHostedConversationConfig.conversationId,
-        selfHostedConversationConfig.subscribeTranscript
+        selfHostedConversationConfig.subscribeTranscript,
+        conversationData
       );
     }
 

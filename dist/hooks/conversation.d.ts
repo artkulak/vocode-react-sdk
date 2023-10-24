@@ -1,5 +1,6 @@
 import { ConversationConfig, ConversationStatus, CurrentSpeaker, SelfHostedConversationConfig, Transcript } from "../types/conversation";
-export declare const useConversation: (config: ConversationConfig | SelfHostedConversationConfig) => {
+import { ConversationData } from "../types/vocode/websocket";
+export declare const useConversation: (config: ConversationConfig | SelfHostedConversationConfig, conversationData: ConversationData) => {
     status: ConversationStatus;
     start: () => void;
     stop: () => void;
