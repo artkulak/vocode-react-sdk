@@ -41,7 +41,7 @@ export type ConversationData = {
   user_last_name?: any, // string,
   user_interests?: any, // string[],
   deeva_profile_id?: any, // string,
-  deeva_memory?: any, // string,
+  deeva_memories?: any, // string,
   deeva_name?: any, // string,
   deeva_relationship_type?: any, // string,
   deeva_interests?: any, // string[]
