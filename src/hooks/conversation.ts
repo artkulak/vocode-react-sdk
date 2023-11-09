@@ -332,7 +332,6 @@ export const useConversation = (
         );
         trackConstraints.deviceId = config.audioDeviceConfig.inputDeviceId;
       }
-      debugger;
       audioStream = await navigator.mediaDevices.getUserMedia({
         video: false,
         //audio: true
