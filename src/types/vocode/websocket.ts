@@ -46,6 +46,7 @@ export type ConversationData = {
   deeva_relationship_type?: any, // string,
   deeva_interests?: any, // string[]
   deeva_voice_name?: any, // string
+  partner_should_be?: any // string
 }
 export interface AudioConfigStartMessage extends WebSocketMessage {
   type: "websocket_audio_config_start";
