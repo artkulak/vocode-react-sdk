@@ -352,8 +352,8 @@ export const useConversation = (
     const micSettings = audioStream.getAudioTracks()[0].getSettings();
     console.log(micSettings);
     const defaultMicSampleRate = micSettings.sampleRate || audioContext.sampleRate;
-    let micSampleRate = defaultMicSampleRate < 22050 ? 22050 : defaultMicSampleRate; // webrtc min rate
-    micSampleRate = micSampleRate > 96000 ? 96000 : micSampleRate; // web rtc max rate
+    let micSampleRate = defaultMicSampleRate < 22050 ? 44000 : defaultMicSampleRate; // webrtc min rate
+    micSampleRate = micSampleRate > 96000 ? 44000 : micSampleRate; // web rtc max rate
     const inputAudioMetadata = {
       samplingRate: micSampleRate,
       audioEncoding: "linear16" as AudioEncoding,
@@ -460,8 +460,8 @@ export const useConversation = (
         }
       }
       const defaultWebrtcSampleRate = micSettings.sampleRate || audioContext.sampleRate;
-      let webrtcMicSampleRate = defaultWebrtcSampleRate < 22050 ? 22050 : defaultWebrtcSampleRate; // webrtc min rate
-      webrtcMicSampleRate = webrtcMicSampleRate > 96000 ? 96000 : webrtcMicSampleRate; // web rtc max rate
+      let webrtcMicSampleRate = defaultWebrtcSampleRate < 22050 ? 44000 : defaultWebrtcSampleRate; // webrtc min rate
+      webrtcMicSampleRate = webrtcMicSampleRate > 96000 ? 44000 : webrtcMicSampleRate; // web rtc max rate
       if (isSafari) console.log('Safari browser detected!')
       if (isSafari)
         recorderToUse = RecordRTC(audioStream, {
