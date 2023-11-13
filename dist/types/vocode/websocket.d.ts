@@ -29,10 +29,12 @@ export type ConversationData = {
     user_last_name?: any;
     user_interests?: any;
     deeva_profile_id?: any;
-    deeva_memory?: any;
+    deeva_memories?: any;
     deeva_name?: any;
     deeva_relationship_type?: any;
     deeva_interests?: any;
+    deeva_voice_name?: any;
+    partner_should_be?: any;
 };
 export interface AudioConfigStartMessage extends WebSocketMessage {
     type: "websocket_audio_config_start";

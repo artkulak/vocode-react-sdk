@@ -45,6 +45,7 @@ const buffer_1 = require("buffer");
 const recordrtc_1 = __importStar(require("recordrtc"));
 const VOCODE_API_URL = "api.vocode.dev";
 const DEFAULT_CHUNK_SIZE = 2048;
+const DEFAULT_ANDROID_SAMPLE_RATE = 44000;
 console.log('Voice SDK started.');
 const useConversation = (config, conversationData) => {
     const [audioContext, setAudioContext] = react_1.default.useState();
@@ -315,8 +316,12 @@ const useConversation = (config, conversationData) => {
         }
         const micSettings = audioStream.getAudioTracks()[0].getSettings();
         console.log(micSettings);
+        const defaultMicSampleRate = micSettings.sampleRate || audioContext.sampleRate;
+        // fix for android devices
+        let micSampleRate = defaultMicSampleRate < 22050 ? DEFAULT_ANDROID_SAMPLE_RATE : defaultMicSampleRate; // webrtc min rate
+        micSampleRate = micSampleRate > 96000 ? DEFAULT_ANDROID_SAMPLE_RATE : micSampleRate; // web rtc max rate
         const inputAudioMetadata = {
-            samplingRate: micSettings.sampleRate || audioContext.sampleRate,
+            samplingRate: micSampleRate,
             audioEncoding: "linear16",
         };
         console.log("Input audio metadata", inputAudioMetadata);
@@ -393,13 +398,17 @@ const useConversation = (config, conversationData) => {
                     }
                 }
             }
+            const defaultWebrtcSampleRate = micSettings.sampleRate || audioContext.sampleRate;
+            // fix for android devices
+            let webrtcMicSampleRate = defaultWebrtcSampleRate < 22050 ? DEFAULT_ANDROID_SAMPLE_RATE : defaultWebrtcSampleRate; // webrtc min rate
+            webrtcMicSampleRate = webrtcMicSampleRate > 96000 ? DEFAULT_ANDROID_SAMPLE_RATE : webrtcMicSampleRate; // web rtc max rate
             if (react_device_detect_1.isSafari)
                 console.log('Safari browser detected!');
             if (react_device_detect_1.isSafari)
                 recorderToUse = (0, recordrtc_1.default)(audioStream, {
                     type: 'audio',
                     // mimeType: mimeType, //'audio/wav',
-                    sampleRate: micSettings.sampleRate,
+                    sampleRate: webrtcMicSampleRate,
                     recorderType: recordrtc_1.StereoAudioRecorder,
                     numberOfAudioChannels: 1,
                     timeSlice: timeSlice,
@@ -412,7 +421,7 @@ const useConversation = (config, conversationData) => {
                 recorderToUse = (0, recordrtc_1.default)(audioStream, {
                     type: 'audio',
                     //mimeType: mimeType,
-                    sampleRate: micSettings.sampleRate,
+                    sampleRate: webrtcMicSampleRate,
                     recorderType: recordrtc_1.StereoAudioRecorder,
                     numberOfAudioChannels: 1,
                     timeSlice: timeSlice,
