@@ -63,6 +63,7 @@ const useConversation = (config, conversationData) => {
     const [transcripts, setTranscripts] = react_1.default.useState([]);
     const [active, setActive] = react_1.default.useState(true);
     const [websocketRetries, setWebsocketRetries] = react_1.default.useState(0);
+    const [isMicConnected, setIsMicConnected] = react_1.default.useState(false);
     const MAX_RETRIES = 2;
     const toggleActive = () => setActive(!active);
     // get audio context and metadata about user audio
@@ -303,6 +304,7 @@ const useConversation = (config, conversationData) => {
                 //audio: true
                 audio: trackConstraints,
             });
+            setIsMicConnected(true);
             setAudioStreamRef(audioStream);
         }
         catch (error) {
@@ -311,6 +313,7 @@ const useConversation = (config, conversationData) => {
                 error = new Error("Microphone access denied");
             }
             console.error(error);
+            setIsMicConnected(false);
             stopConversation(error);
             return;
         }
@@ -500,7 +503,8 @@ const useConversation = (config, conversationData) => {
         transcripts,
         currentSpeaker,
         muteMic,
-        muteSound
+        muteSound,
+        isMicConnected
     };
 };
 exports.useConversation = useConversation;

@@ -13,4 +13,5 @@ export declare const useConversation: (config: ConversationConfig | SelfHostedCo
     currentSpeaker: CurrentSpeaker;
     muteMic: (mute: boolean) => void;
     muteSound: (mute: boolean) => void;
+    isMicConnected: boolean;
 };
