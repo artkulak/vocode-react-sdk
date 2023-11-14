@@ -49,6 +49,7 @@ export const useConversation = (
   currentSpeaker: CurrentSpeaker;
   muteMic: (mute: boolean) => void;
   muteSound: (mute: boolean) => void;
+  isMicConnected: boolean;
 } => {
   const [audioContext, setAudioContext] = React.useState<AudioContext>();
   const [audioAnalyser, setAudioAnalyser] = React.useState<AnalyserNode>();
@@ -66,6 +67,8 @@ export const useConversation = (
   const [transcripts, setTranscripts] = React.useState<Transcript[]>([]);
   const [active, setActive] = React.useState(true);
   const [websocketRetries, setWebsocketRetries] = React.useState(0);
+  const [isMicConnected, setIsMicConnected] = React.useState(false);
+
   const MAX_RETRIES = 2;
   const toggleActive = () => setActive(!active);
 
@@ -338,6 +341,7 @@ export const useConversation = (
         //audio: true
         audio: trackConstraints,
       });
+      setIsMicConnected(true);
       setAudioStreamRef(audioStream);
     } catch (error) {
       if (error instanceof DOMException && error.name === "NotAllowedError") {
@@ -347,6 +351,7 @@ export const useConversation = (
         error = new Error("Microphone access denied");
       }
       console.error(error);
+      setIsMicConnected(false);
       stopConversation(error as Error);
       return;
     }
@@ -572,6 +577,7 @@ export const useConversation = (
     transcripts,
     currentSpeaker,
     muteMic,
-    muteSound
+    muteSound,
+    isMicConnected
   };
 };
